@@ -23,3 +23,5 @@ function locationRostov() {
 
 const tempRostov = fetch(`https://api.open-meteo.com/v1/forecast?${locationRostov()}&hourly=temperature_2m&forecast_days=1`)
 
+tempRostov.then(response => response.json())
+.then(data => console.log(data.hourly.temperature_2m, data.hourly.time))
