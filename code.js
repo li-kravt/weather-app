@@ -23,5 +23,18 @@ function locationRostov() {
 
 const tempRostov = fetch(`https://api.open-meteo.com/v1/forecast?${locationRostov()}&hourly=temperature_2m&forecast_days=1`)
 
+
+const temperature = document.getElementById("temperature")
+const time = document.getElementById("time")
+
+
+
 tempRostov.then(response => response.json())
-.then(data => console.log(data.hourly.temperature_2m, data.hourly.time))
+.then(data => { 
+    data.hourly.temperature_2m.forEach(element => {
+        temperature.innerHTML += `${element + "<br>"}`
+    });
+    data.hourly.time.forEach(element => {
+        time.innerHTML += `${element + "<br>"}`
+    });
+})
