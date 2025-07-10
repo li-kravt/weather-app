@@ -14,36 +14,90 @@
 function locationRostov() {
     const latitude = 47.2313
     const longitude = 39.7233
-
-    let res = ""
     
-    res = `latitude=${latitude}&longitude=${longitude}`
+    let res = `latitude=${latitude}&longitude=${longitude}`
+    return res
+}
+
+function locationMunich() {
+    const latitude = 48.1374
+    const longitude = 11.5755
+
+    let res = `latitude=${latitude}&longitude=${longitude}`
     return res
 }
 
 
 const tempRostov = fetch(`https://api.open-meteo.com/v1/forecast?${locationRostov()}&hourly=temperature_2m&forecast_days=1`)
 
-const temperatureRostov = document.getElementById("temperatureRostov")
-const timeRostov = document.getElementById("timeRostov")
-const date = document.getElementById("date")
+const forecast = document.getElementById("forecast")
+
 
 tempRostov.then(response => response.json())
 .then(data => { 
 
+    var code = `<div id="rostov-data" class="flex flex-col items-center gap-4">
+            <h3 class="text-2xl font-bold">Rostov-on-Don</h3>
+            <h4 class="text-xl">Date: <span id="dateRostov" class="text-xl font-bold"></span> </h4>
+            <div class="flex gap-8">
+                <p id="timeRostov"></p>
+                <p id="temperatureRostov"></p>
+            </div>
+        </div>`
+
+   forecast.innerHTML += code
+
+const temperatureRostov = document.getElementById("temperatureRostov")
+const timeRostov = document.getElementById("timeRostov")
+const date = document.getElementById("date")
+
+    
     const curDate = data.hourly.time[0].split("T")[0]
-    date.innerHTML += curDate
+    dateRostov.innerHTML += curDate
     
     data.hourly.temperature_2m.forEach(element => {
-
+        
         temperatureRostov.innerHTML += `${Math.round(element) + "°C" + "<br>"}`
     });
-
+    
     data.hourly.time.forEach(element => {
         const dateTime = element.split("T")
         const simpleHour = dateTime[1].split(":")[0]
-
+        
         timeRostov.innerHTML += `${simpleHour + "<br>"}`
     });
+    
+})
+
+
+const tempMunich = fetch(`https://api.open-meteo.com/v1/forecast?${locationMunich()}&hourly=temperature_2m&forecast_days=1`)
+tempMunich.then(response => response.json())
+.then(data => {
+    
+    var code = `<div id="munich-data" class="flex flex-col items-center gap-4">
+            <h3 class="text-2xl font-bold">Munich</h3>
+            <h4 class="text-xl">Date: <span id="dateMunich" class="text-xl font-bold"></span> </h4>
+            <div class="flex gap-8">
+                <p id="timeMunich"></p>
+                <p id="temperatureMunich"></p>
+            </div>
+        </div>`
+
+    forecast.innerHTML += code
+
+    const temperatureMunich = document.getElementById("temperatureMunich")
+    const timeMunich = document.getElementById("timeMunich")
+    const date = document.getElementById("date")
+
+    dateMunich.innerHTML += `${data.hourly.time[0].split("T")[0]}`
+
+    data.hourly.temperature_2m.forEach(element =>{
+        temperatureMunich.innerHTML += `${Math.round(element) + "°C" + "<br>"}`
+    })
+
+    data.hourly.time.forEach(element => {
+        const simpleHour = element.split("T")[1].split(":")[0]
+        timeMunich.innerHTML += `${simpleHour + "<br>"}`
+    })
 
 })
