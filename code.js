@@ -32,20 +32,25 @@ const tempRostov = fetch(`https://api.open-meteo.com/v1/forecast?${locationRosto
 
 const forecast = document.getElementById("forecast")
 
+function codeWeatherCity(city) {
+
+var dataWeather = `<div id="city-data" class="flex flex-col items-center gap-4">
+<h3 class="text-2xl font-bold">${city}</h3>
+<h4 class="text-xl">Date: <span id="date${city}" class="text-xl font-bold"></span> </h4>
+<div class="flex gap-8">
+    <p id="time${city}"></p>
+    <p id="temperature${city}"></p>
+</div>
+</div>`
+
+return forecast.innerHTML += dataWeather
+}
+
 
 tempRostov.then(response => response.json())
 .then(data => { 
 
-    var code = `<div id="rostov-data" class="flex flex-col items-center gap-4">
-            <h3 class="text-2xl font-bold">Rostov-on-Don</h3>
-            <h4 class="text-xl">Date: <span id="dateRostov" class="text-xl font-bold"></span> </h4>
-            <div class="flex gap-8">
-                <p id="timeRostov"></p>
-                <p id="temperatureRostov"></p>
-            </div>
-        </div>`
-
-   forecast.innerHTML += code
+    codeWeatherCity("Rostov")
 
 const temperatureRostov = document.getElementById("temperatureRostov")
 const timeRostov = document.getElementById("timeRostov")
@@ -74,16 +79,7 @@ const tempMunich = fetch(`https://api.open-meteo.com/v1/forecast?${locationMunic
 tempMunich.then(response => response.json())
 .then(data => {
     
-    var code = `<div id="munich-data" class="flex flex-col items-center gap-4">
-            <h3 class="text-2xl font-bold">Munich</h3>
-            <h4 class="text-xl">Date: <span id="dateMunich" class="text-xl font-bold"></span> </h4>
-            <div class="flex gap-8">
-                <p id="timeMunich"></p>
-                <p id="temperatureMunich"></p>
-            </div>
-        </div>`
-
-    forecast.innerHTML += code
+    codeWeatherCity("Munich")
 
     const temperatureMunich = document.getElementById("temperatureMunich")
     const timeMunich = document.getElementById("timeMunich")
