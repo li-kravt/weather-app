@@ -35,6 +35,7 @@ function locationTelAviv() {
 
 const tempRostov = fetch(`https://api.open-meteo.com/v1/forecast?${locationRostov()}&hourly=temperature_2m&forecast_days=1`)
 const tempMunich = fetch(`https://api.open-meteo.com/v1/forecast?${locationMunich()}&hourly=temperature_2m&forecast_days=1`)
+const tempTelAviv = fetch(`https://api.open-meteo.com/v1/forecast?${locationTelAviv()}&hourly=temperature_2m&forecast_days=1`)
 
 const forecast = document.getElementById("forecast")
 
@@ -83,11 +84,19 @@ tempRostov.then(response => response.json())
 
 })
 
-//------------------------------------------------------------------------------------------------------------------------------
+
 tempMunich.then(response => response.json())
 .then(data => {
     
     codeWeatherCity("Munich")
     displayDataWeather("Munich", data)
+
+})
+
+tempTelAviv.then(response => response.json())
+.then(data => {
+    
+    codeWeatherCity("TelAviv")
+    displayDataWeather("TelAviv", data)
 
 })
