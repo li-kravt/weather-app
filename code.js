@@ -21,20 +21,29 @@ function locationRostov() {
     return res
 }
 
+
 const tempRostov = fetch(`https://api.open-meteo.com/v1/forecast?${locationRostov()}&hourly=temperature_2m&forecast_days=1`)
 
-
-const temperature = document.getElementById("temperature")
-const time = document.getElementById("time")
-
-
+const temperatureRostov = document.getElementById("temperatureRostov")
+const timeRostov = document.getElementById("timeRostov")
+const date = document.getElementById("date")
 
 tempRostov.then(response => response.json())
 .then(data => { 
+
+    const curDate = data.hourly.time[0].split("T")[0]
+    date.innerHTML += curDate
+    
     data.hourly.temperature_2m.forEach(element => {
-        temperature.innerHTML += `${element + "<br>"}`
+
+        temperatureRostov.innerHTML += `${Math.round(element) + "°C" + "<br>"}`
     });
+
     data.hourly.time.forEach(element => {
-        time.innerHTML += `${element + "<br>"}`
+        const dateTime = element.split("T")
+        const simpleHour = dateTime[1].split(":")[0]
+
+        timeRostov.innerHTML += `${simpleHour + "<br>"}`
     });
+
 })
