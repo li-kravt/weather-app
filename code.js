@@ -205,4 +205,6 @@ function dataDisplayWeatherCity(city, latitude, longitude){
         codeWeatherCity(`"${city}"`)
         displayDataWeather(`"${city}"`, data)
     })
-}
+} 
+
+//добавлено
