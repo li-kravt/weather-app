@@ -1,52 +1,3 @@
-// const latitude = 52.52
-// const longitude = 13.41
-
-// const result = fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m`)
-
-
-// result
-// .then(res => res.json())
-// .then(res => console.log(res))
-
-// console.log('hi')
-
-
-// function locationRostov() {
-//     const latitude = 47.2313
-//     const longitude = 39.7233
-    
-//     return res = `latitude=${latitude}&longitude=${longitude}`
-// }
-
-// function locationMunich() {
-//     const latitude = 48.1374
-//     const longitude = 11.5755
-
-//     return res = `latitude=${latitude}&longitude=${longitude}`
-// }
-
-// function TelAviv() {
-
-//     const latitude = 32.0809
-//     const longitude = 34.7806
-
-//     return fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m&forecast_days=1`)
-// }
-
-// //не работает - додумать логику. Идея: имя в самой функции. Что-то не так
-// function fetchCity(city, latitude, longitude) {
-
-//     return fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m&forecast_days=1`)
-
-
-// }
-
-
-
-// const tempRostov = fetch(`https://api.open-meteo.com/v1/forecast?${locationRostov()}&hourly=temperature_2m&forecast_days=1`)
-// const tempMunich = fetch(`https://api.open-meteo.com/v1/forecast?${locationMunich()}&hourly=temperature_2m&forecast_days=1`)
-// const tempTelAviv = fetch(`https://api.open-meteo.com/v1/forecast?${locationTelAviv()}&hourly=temperature_2m&forecast_days=1`)
-
 const forecast = document.getElementById("forecast")
 
 
@@ -63,6 +14,7 @@ var dataWeather = `<div id="city-data" class="flex flex-col items-center gap-4">
 
 return forecast.innerHTML += dataWeather
 }
+
 
 function displayDataWeather(city, data) {
     
@@ -86,42 +38,7 @@ data.hourly.time.forEach(element => {
 
 }
 
-// tempRostov.then(response => response.json())
-// .then(data => { 
 
-//     codeWeatherCity("Rostov")
-//     displayDataWeather("Rostov", data)
-
-// })
-
-
-// tempMunich.then(response => response.json())
-// .then(data => {
-    
-//     codeWeatherCity("Munich")
-//     displayDataWeather("Munich", data)
-
-// })
-
-// locationTelAviv.then(response => response.json())
-// .then(data => {
-    
-//     codeWeatherCity("TelAviv")
-//     displayDataWeather("TelAviv", data)
-
-// })
-
-//функция для вывода данных в html. Первый шаг: function fetchCity(latitude, longitude), далее 
-
-function dataDisplayWeatherCity(city){
-    city.then    (response => response.json())
-    .then(data => { 
-        codeWeatherCity(`"${city}"`)
-        displayDataWeather(`"${city}"`, data)
-    })
-}
-
-//функция для получения данных в html сразу. Используя название грода, широту и долготу. Проверить. Нужен return? нет наверное
 function dataDisplayWeatherCity(city, latitude, longitude){
     
         fetchCity = fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m&forecast_days=1`)
@@ -133,7 +50,8 @@ function dataDisplayWeatherCity(city, latitude, longitude){
     })
 } 
 
+//test
 dataDisplayWeatherCity("TelAviv", 32.0809, 34.7806)
 dataDisplayWeatherCity("Rostov", 47.2313, 39.7233)
-dataDisplayWeatherCity("MunichR", 48.1374, 11.5755)
+dataDisplayWeatherCity("Munich", 48.1374, 11.5755)
 
