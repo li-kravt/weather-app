@@ -50,8 +50,35 @@ function dataDisplayWeatherCity(city, latitude, longitude){
     })
 } 
 
+const citys = [
+    {   city: "TelAviv",
+        latitude: 32.0809,
+        longitude: 34.7806
+    },
+    {   city: "Rostov",
+        latitude: 47.2313,
+        longitude: 39.7233
+    },
+    {   city: "Munich",
+        latitude: 48.1374,
+        longitude: 11.5755
+    }
+]
+
+const dropdownChooseCity = document.querySelector('.js-dropdownChooseCity')
+const listCitys = document.querySelector('.js-listCitys')
+
+dropdownChooseCity.addEventListener('click', (e) =>{
+
+    //to-do написать цикл для перебора массива citys и подставлений значений в код каждого горда
+    const codeListSitys = `<li>
+    ${citys.city}
+    </li>`
+
+    listCitys.innerHTML +=
+})
+
 //test
 dataDisplayWeatherCity("TelAviv", 32.0809, 34.7806)
 dataDisplayWeatherCity("Rostov", 47.2313, 39.7233)
 dataDisplayWeatherCity("Munich", 48.1374, 11.5755)
-
