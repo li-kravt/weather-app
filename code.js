@@ -68,21 +68,27 @@ const cities = [
 const dropdownChooseCity = document.querySelector('.js-dropdownChooseCity')
 const listCities = document.querySelector('.js-listCities')
 
+let allCitiesHTML = ''
+listCities.style.display = 'none'
+for(i = 0; i < cities.length; i++) {
+    allCitiesHTML += `<li class="js-city${cities[i].city}flex p-1 w-100 border border-black mb-1 cursor-pointer">${cities[i].city}</li>`
+}
+listCities.innerHTML += allCitiesHTML
+
+
+//to-do выпадает новый список по каждому клику - пофиксить
 dropdownChooseCity.addEventListener('click', () =>{
-    
 
     
-    let allCitiesHTML = ''
-    
-    for(i = 0; i < cities.length; i++) {
-        
-        allCitiesHTML += `<li class="js-city${cities[i].city}flex p-1 w-100 border border-black mb-1 cursor-pointer">${cities[i].city}</li>`
-    }
-    listCities.innerHTML += allCitiesHTML
-    if(listCities !==''){
-        listCities.style.display = 'none'
+    if(listCities.style.display == 'none'){
+        listCities.style.display = ''
         return
     }
+    
+    if(listCities.style.display == ''){
+        listCities.style.display = 'none'
+        return
+     }
 
 })
 
