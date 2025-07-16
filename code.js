@@ -38,18 +38,6 @@ data.hourly.time.forEach(element => {
 
 }
 
-
-function dataDisplayWeatherCity(city, latitude, longitude){
-    
-        fetchCity = fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m&forecast_days=1`)
-    
-    fetchCity.then(response => response.json())
-    .then(data => { 
-        codeWeatherCity(city)
-        displayDataWeather(city, data)
-    })
-} 
-
 const cities = [
     {   city: "TelAviv",
         latitude: 32.0809,
@@ -65,8 +53,19 @@ const cities = [
     }
 ]
 
+function dataDisplayWeatherCity(city, latitude, longitude){
+    
+        fetchCity = fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m&forecast_days=1`)
+    
+    fetchCity.then(response => response.json())
+    .then(data => { 
+        codeWeatherCity(city)
+        displayDataWeather(city, data)
+    })
+} 
 const dropdownChooseCity = document.querySelector('.js-dropdownChooseCity')
 const listCities = document.querySelector('.js-listCities')
+
 
 let allCitiesHTML = ''
 listCities.style.display = 'none'
@@ -76,7 +75,7 @@ for(i = 0; i < cities.length; i++) {
 listCities.innerHTML += allCitiesHTML
 
 
-//to-do выпадает новый список по каждому клику - пофиксить
+
 dropdownChooseCity.addEventListener('click', () =>{
 
     
@@ -91,6 +90,18 @@ dropdownChooseCity.addEventListener('click', () =>{
      }
 
 })
+
+
+// //не работаееееееееееет - придумать новую логику. непонятно
+// function chooseSityWeahter(){
+
+//     for(i = 0; i < cities.length; i++) {
+//     const cityWeather = document.querySelector(`.js-city${cities[i].city}`)
+//     cityWeather.addEventListener('click' () =>{
+//     })
+//     }
+     
+// }
 
 //test
 dataDisplayWeatherCity("TelAviv", 32.0809, 34.7806)
