@@ -53,10 +53,14 @@ const cities = [
     }
 ]
 
-function dataDisplayWeatherCity(city, latitude, longitude){
-    
-        fetchCity = fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m&forecast_days=1`)
-    
+function dataDisplayWeatherCity(city){
+
+    for(i=0; i<cities.length; i++){
+    if (cities[i].city == city) {
+       fetchCity = fetch(`https://api.open-meteo.com/v1/forecast?latitude=${cities[i].latitude}&longitude=${cities[i].longitude}&hourly=temperature_2m&forecast_days=1`)
+    }
+    }
+
     fetchCity.then(response => response.json())
     .then(data => { 
         codeWeatherCity(city)
@@ -104,6 +108,6 @@ dropdownChooseCity.addEventListener('click', () =>{
 // }
 
 //test
-dataDisplayWeatherCity("TelAviv", 32.0809, 34.7806)
-dataDisplayWeatherCity("Rostov", 47.2313, 39.7233)
-dataDisplayWeatherCity("Munich", 48.1374, 11.5755)
+dataDisplayWeatherCity("TelAviv")
+dataDisplayWeatherCity("Rostov")
+dataDisplayWeatherCity("Munich")
