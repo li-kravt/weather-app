@@ -1,18 +1,18 @@
 const API_URL = 'https://api.open-meteo.com/v1/forecast'
 
 const CITIES = [
-    {   city: "TelAviv",
-        latitude: 32.0809,
-        longitude: 34.7806
-    },
-    {   city: "Rostov",
-        latitude: 47.2313,
-        longitude: 39.7233
-    },
-    {   city: "Munich",
-        latitude: 48.1374,
-        longitude: 11.5755
-    }
+  {   city: "TelAviv",
+      latitude: 32.0809,
+      longitude: 34.7806
+  },
+  {   city: "Rostov",
+      latitude: 47.2313,
+      longitude: 39.7233
+  },
+  {   city: "Munich",
+      latitude: 48.1374,
+      longitude: 11.5755
+  }
 ]
 
 const forecast = document.getElementById("forecast")
@@ -63,31 +63,31 @@ function dataDisplayWeatherCity(city){
     })
 } 
 
-const dropdownChooseCity = document.querySelector('.js-dropdownChooseCity')
+const citySelect = document.querySelector('#city-select')
 const listCities = document.querySelector('.js-listCities')
 
-let allCitiesHTML = ''
-listCities.style.display = 'none'
+let oneCity = ''
+// citySelect.style.display = 'none'
 
 for(i = 0; i < CITIES.length; i++) {
-  allCitiesHTML += `<li
-  class="js-city${CITIES[i].city}flex p-1 w-100 border border-black mb-1 cursor-pointer">
+  oneCity += `<option
+  value="${CITIES[i].city}">
   ${CITIES[i].city}
-  </li>`
+  </option>`
 }
-listCities.innerHTML += allCitiesHTML
+citySelect.innerHTML += oneCity
 
-dropdownChooseCity.addEventListener('click', () =>{
-  if(listCities.style.display == 'none'){
-    listCities.style.display = ''
-    return
-  }
+// citySelect.addEventListener('click', () =>{
+//   if(listCities.style.display == 'none'){
+//     listCities.style.display = ''
+//     return
+//   }
     
-  if(listCities.style.display == ''){
-    listCities.style.display = 'none'
-    return
-  }
-})
+//   if(listCities.style.display == ''){
+//     listCities.style.display = 'none'
+//     return
+//   }
+// })
 
 
 // //не работаееееееееееет - придумать новую логику. непонятно
