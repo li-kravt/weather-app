@@ -77,6 +77,8 @@ citySelect.innerHTML += oneCity
 
 
 citySelect.addEventListener('change', (e) => {
+  document.getElementById("forecast").innerHTML = ""
+
   const city = e.target.value
   dataDisplayWeatherCity(city)
 })
