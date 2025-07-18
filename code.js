@@ -64,10 +64,8 @@ function dataDisplayWeatherCity(city){
 } 
 
 const citySelect = document.querySelector('#city-select')
-const listCities = document.querySelector('.js-listCities')
-
 let oneCity = ''
-// citySelect.style.display = 'none'
+
 
 for(i = 0; i < CITIES.length; i++) {
   oneCity += `<option
@@ -77,31 +75,12 @@ for(i = 0; i < CITIES.length; i++) {
 }
 citySelect.innerHTML += oneCity
 
-// citySelect.addEventListener('click', () =>{
-//   if(listCities.style.display == 'none'){
-//     listCities.style.display = ''
-//     return
-//   }
-    
-//   if(listCities.style.display == ''){
-//     listCities.style.display = 'none'
-//     return
-//   }
-// })
 
+citySelect.addEventListener('change', (e) => {
+  const city = e.target.value
+  dataDisplayWeatherCity(city)
+})
 
-// //не работаееееееееееет - придумать новую логику. непонятно
-// function chooseSityWeahter(){
-
-//     for(i = 0; i < cities.length; i++) {
-//     const cityWeather = document.querySelector(`.js-city${cities[i].city}`)
-//     cityWeather.addEventListener('click' () =>{
-//     })
-//     }
-     
-// }
-
-//Упрощено
-dataDisplayWeatherCity("TelAviv")
-dataDisplayWeatherCity("Rostov")
-dataDisplayWeatherCity("Munich")
+// dataDisplayWeatherCity("TelAviv")
+// dataDisplayWeatherCity("Rostov")
+// dataDisplayWeatherCity("Munich")
