@@ -49,10 +49,10 @@ function displayDataWeather(city, data) {
 });
 }
 
-function dataDisplayWeatherCity(city){
+function dataDisplayWeatherCity(city, days){
     for(let i=0; i < CITIES.length; i++){
       if (CITIES[i].city == city) {
-       fetchCity = fetch(`${API_URL}?latitude=${CITIES[i].latitude}&longitude=${CITIES[i].longitude}&hourly=temperature_2m&forecast_days=1`)
+       fetchCity = fetch(`${API_URL}?latitude=${CITIES[i].latitude}&longitude=${CITIES[i].longitude}&hourly=temperature_2m&forecast_days=${days}`)
       }
     }
 
@@ -75,14 +75,26 @@ for(i = 0; i < CITIES.length; i++) {
 }
 citySelect.innerHTML += oneCity
 
+const daysSelect = document.querySelector("#days")
 
 citySelect.addEventListener('change', (e) => {
   document.getElementById("forecast").innerHTML = ""
-
+  
+  const days = daysSelect.value
   const city = e.target.value
-  dataDisplayWeatherCity(city)
+
+  dataDisplayWeatherCity(city, days)
 })
 
-// dataDisplayWeatherCity("TelAviv")
+daysSelect.addEventListener('change', (e) =>{
+  document.getElementById("forecast").innerHTML = ""
+
+  const city = citySelect.value
+  const days = e.target.value
+
+  dataDisplayWeatherCity(city, days)
+})
+
+// dataDisplayWeatherCity("TelAviv", 3)
 // dataDisplayWeatherCity("Rostov")
 // dataDisplayWeatherCity("Munich")
