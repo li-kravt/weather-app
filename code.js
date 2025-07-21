@@ -30,12 +30,18 @@ function codeWeatherCity(city) {
 return forecast.innerHTML += dataWeather
 }
 
+
 function displayDataWeather(city, data) {
   const temperatureСity = document.getElementById(`temperature${city}`)
   const timeCity = document.getElementById(`time${city}`)
   const dateCity = document.getElementById(`date${city}`)
+  
+  const date = data.hourly.time[0].split('T')[0].split("-")
+  if(date[1] == "07"){
+    date[1] = "July"
+  }
 
-  dateCity.innerHTML += data.hourly.time[0].split("T")[0]
+  dateCity.innerHTML += date.join(' ')
 
   data.hourly.temperature_2m.forEach(element => {     
     temperatureСity.innerHTML += `${Math.round(element) + "°C" + "<br>"}`
@@ -92,7 +98,7 @@ daysSelect.addEventListener('change', (e) =>{
   const city = citySelect.value
   const days = e.target.value
 
-  dataDisplayWeatherCity(city, days)
+    dataDisplayWeatherCity(city, days)
 })
 
 // dataDisplayWeatherCity("TelAviv", 3)
