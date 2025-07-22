@@ -19,7 +19,7 @@ const forecast = document.getElementById("forecast")
 
 function codeWeatherCity(city) {
     const dataWeather = `<div id="city-data" class="flex flex-col items-center gap-4">
-  <h3 class="text-2xl font-bold">${city}</h3>
+
   <h4 class="text-xl">Date: <span id="date${city}" class="text-xl font-bold"></span> </h4>
   <div class="flex gap-8">
       <p id="time${city}"></p>
@@ -29,7 +29,6 @@ function codeWeatherCity(city) {
 
 return forecast.innerHTML += dataWeather
 }
-
 
 function displayDataWeather(city, data) {
   const temperatureСity = document.getElementById(`temperature${city}`)
@@ -82,8 +81,11 @@ for(i = 0; i < CITIES.length; i++) {
 citySelect.innerHTML += oneCity
 
 const daysSelect = document.querySelector("#days")
+const cityTitle = document.getElementById("city-title")
 
 citySelect.addEventListener('change', (e) => {
+  cityTitle.textContent = `${citySelect.value}`
+
   document.getElementById("forecast").innerHTML = ""
   
   const days = daysSelect.value
