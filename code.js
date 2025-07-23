@@ -64,8 +64,14 @@ function displayDataWeather(city, data) {
 
   dateCity.textContent = date.join(' ')
 
-  data.hourly.temperature_2m.forEach(element => {     
-    temperatureСity.innerHTML += `${Math.round(element) + "°C" + "<br>"}`
+  data.hourly.temperature_2m.forEach(element => { 
+    let spanTempBr = document.createElement('span')
+    spanTempBr.textContent = `${Math.round(element)} °C`
+    
+    let br = document.createElement("br")
+    spanTempBr.appendChild(br)
+
+    temperatureСity.appendChild(spanTempBr)
   });
 
   data.hourly.time.forEach(element => {
