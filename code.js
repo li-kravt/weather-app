@@ -18,16 +18,38 @@ const CITIES = [
 const forecast = document.getElementById("forecast")
 
 function codeWeatherCity(city) {
-    const dataWeather = `<div id="city-data" class="flex flex-col items-center gap-4">
+  let dataWeatherElement = document.createElement('div')
+  dataWeatherElement.className = "flex flex-col items-center gap-4"
+  forecast.appendChild(dataWeatherElement)
 
-  <h4 class="text-xl">Date: <span id="date${city}" class="text-xl font-bold"></span> </h4>
-  <div class="flex gap-8">
-      <p id="time${city}"></p>
-      <p id="temperature${city}"></p>
-  </div>
-</div>`
+  let h4Date = document.createElement("h4")
+  h4Date.className = "text-xl"
+  dataWeatherElement.appendChild(h4Date)
 
-return forecast.innerHTML += dataWeather
+  let spanDate = document.createElement("span")
+  spanDate.setAttribute('id', `date${city}`)
+  spanDate.className = "text-xl font-bold"
+  h4Date.appendChild(spanDate)
+
+  let listForecast = document.createElement("div")
+  listForecast.className = "flex gap-8"
+  dataWeatherElement.appendChild(listForecast)
+
+  let pTime = document.createElement('p')
+  pTime.setAttribute("id", `time${city}`)
+  listForecast.appendChild(pTime)
+
+  let pTemp = document.createElement('p')
+  pTemp.setAttribute("id", `temperature${city}`)
+  listForecast.appendChild(pTemp)
+
+//     const dataWeather = `<div id="city-data" class="flex flex-col items-center gap-4">
+//   <h4 class="text-xl">Date: <span id="date${city}" class="text-xl font-bold"></span> </h4>
+//   <div class="flex gap-8">
+//       <p id="time${city}"></p>
+//       <p id="temperature${city}"></p>
+//   </div>
+// </div>`
 }
 
 function displayDataWeather(city, data) {
@@ -40,7 +62,7 @@ function displayDataWeather(city, data) {
     date[1] = "July"
   }
 
-  dateCity.innerHTML += date.join(' ')
+  dateCity.textContent = date.join(' ')
 
   data.hourly.temperature_2m.forEach(element => {     
     temperatureСity.innerHTML += `${Math.round(element) + "°C" + "<br>"}`
@@ -80,13 +102,11 @@ for(i = 0; i < CITIES.length; i++) {
 }
 citySelect.innerHTML += oneCity
 
-const daysSelect = document.querySelector("#days")
+const daysSelect = document.getElementById("days")
 const cityTitle = document.getElementById("city-title")
 
 citySelect.addEventListener('change', (e) => {
-  cityTitle.textContent = `${citySelect.value}`
-
-  document.getElementById("forecast").innerHTML = ""
+  cityTitle.textContent = citySelect.value
   
   const days = daysSelect.value
   const city = e.target.value
@@ -106,3 +126,25 @@ daysSelect.addEventListener('change', (e) =>{
 // dataDisplayWeatherCity("TelAviv", 3)
 // dataDisplayWeatherCity("Rostov")
 // dataDisplayWeatherCity("Munich")
+
+// let dataWeatherElement = document.createElement('div')
+// dataWeatherElement.className = "flex flex-col items-center gap-4"
+// forecast.appendChild(dataWeatherElement)
+
+// let h4Date = document.createElement("h4")
+// h4Date.className = "text-xl"
+// dataWeatherElement.appendChild(h4Date)
+
+// let spanDate = document.createElement("span")
+// spanDate.className = "text-xl font-bold"
+// h4Date.appendChild(spanDate)
+
+// let listForecast = document.createElement("div")
+// listForecast.className = "flex gap-8"
+// dataWeatherElement.appendChild(listForecast)
+
+// let pTime = document.createElement('p')
+// listForecast.appendChild(pTime)
+
+// let pTemp = document.createElement('p')
+// listForecast.appendChild(pTemp)
