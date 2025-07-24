@@ -35,13 +35,13 @@ function codeWeatherCity(city) {
   listForecast.className = "flex gap-8"
   dataWeatherElement.appendChild(listForecast)
 
-  let pTime = document.createElement('p')
-  pTime.setAttribute("id", `time${city}`)
+  let pTime = document.createElement('div')
+  pTime.setAttribute("id", `timeTemp${city}`)
   listForecast.appendChild(pTime)
 
-  let pTemp = document.createElement('p')
-  pTemp.setAttribute("id", `temperature${city}`)
-  listForecast.appendChild(pTemp)
+  // let pTemp = document.createElement('div')
+  // pTemp.setAttribute("id", `temperature${city}`)
+  // listForecast.appendChild(pTemp)
 
 //     const dataWeather = `<div id="city-data" class="flex flex-col items-center gap-4">
 //   <h4 class="text-xl">Date: <span id="date${city}" class="text-xl font-bold"></span> </h4>
@@ -53,8 +53,8 @@ function codeWeatherCity(city) {
 }
 
 function displayDataWeather(city, data) {
-  const temperatureСity = document.getElementById(`temperature${city}`)
-  const timeCity = document.getElementById(`time${city}`)
+  // const temperatureСity = document.getElementById(`temperature${city}`)
+  const timeCity = document.getElementById(`timeTemp${city}`)
   const dateCity = document.getElementById(`date${city}`)
   
   const date = data.hourly.time[0].split('T')[0].split("-")
@@ -64,22 +64,48 @@ function displayDataWeather(city, data) {
 
   dateCity.textContent = date.join(' ')
 
-  data.hourly.temperature_2m.forEach(element => { 
-    let spanTempBr = document.createElement('span')
-    spanTempBr.textContent = `${Math.round(element)} °C`
-    
-    let br = document.createElement("br")
-    spanTempBr.appendChild(br)
+  // for (let i = 0; i < data.hourly.time.length; i++) {
+  //   let pOneTime = document.createElement('p')
+  //   let pOneTemp = document.createElement('p')
 
-    temperatureСity.appendChild(spanTempBr)
-  });
+  //   pOneTime.textContent = data.hourly.time[i].split('T')[1].split(':')[0]
+  //   pOneTemp.textContent = `${data.hourly.temperature_2m[i]} °C`
 
-  data.hourly.time.forEach(element => {
-    const dateTime = element.split("T")
-    const simpleHour = dateTime[1].split(":")[0]
+  //   timeCity.appendChild(pOneTime)
+  //   temperatureСity.appendChild(pOneTemp)
+
+  // }
+
+//   data.hourly.temperature_2m.forEach(element => { 
+//     let spanTempBr = document.createElement('span')
+//     spanTempBr.textContent = `${Math.round(element)} °C`
     
-    timeCity.innerHTML += `${simpleHour + "<br>"}`
-});
+//     let br = document.createElement("br")
+//     spanTempBr.appendChild(br)
+
+//     temperatureСity.appendChild(spanTempBr)
+//   });
+
+//   data.hourly.time.forEach(element => {
+//     const dateTime = element.split("T")
+//     const simpleHour = dateTime[1].split(":")[0]
+    
+//     timeCity.innerHTML += `${simpleHour + "<br>"}`
+// });
+// }
+
+// function mergeArrays(arrTime ,arrTemp){
+  for (let i = 0; i < data.hourly.time.length; i++) {
+    let pOneTime = document.createElement('p')
+    let pOneTemp = document.createElement('p')
+    let space = '\u00A0 \u00A0 \u00A0'
+
+    pOneTime.textContent = `${data.hourly.time[i].split('T')[1].split(':')[0]} ${space} ${Math.round(data.hourly.temperature_2m[i])} °C`
+    // pOneTemp.textContent = `${Math.round(data.hourly.temperature_2m[i])} °C
+
+    timeCity.appendChild(pOneTime)
+    // temperatureСity.appendChild(pOneTemp)
+  }
 }
 
 function dataDisplayWeatherCity(city, days){
@@ -98,7 +124,6 @@ function dataDisplayWeatherCity(city, days){
 
 const citySelect = document.querySelector('#city-select')
 let oneCity = ''
-
 
 for(i = 0; i < CITIES.length; i++) {
   oneCity += `<option
