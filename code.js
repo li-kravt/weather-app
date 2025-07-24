@@ -112,6 +112,7 @@ const daysSelect = document.getElementById("days")
 const cityTitle = document.getElementById("city-title")
 
 citySelect.addEventListener('change', (e) => {
+  forecast.removeChild(forecast.firstChild)
   cityTitle.textContent = citySelect.value
   
   const days = daysSelect.value
@@ -121,7 +122,7 @@ citySelect.addEventListener('change', (e) => {
 })
 
 daysSelect.addEventListener('change', (e) =>{
-  document.getElementById("forecast").innerHTML = ""
+  forecast.removeChild(forecast.firstChild)
 
   const city = citySelect.value
   const days = e.target.value
