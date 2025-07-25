@@ -96,6 +96,8 @@ function displayDataWeather(city, data) {
 
 // function mergeArrays(arrTime ,arrTemp){
   for (let i = 0; i < data.hourly.time.length; i++) {
+     (data.hourly.time[i].split('T')[0] !== data.hourly.time[i--].split('T')[1].split(':')[0]) 
+
     let pOneTime = document.createElement('p')
     let pOneTemp = document.createElement('p')
     let space = '\u00A0 \u00A0 \u00A0'
@@ -103,7 +105,9 @@ function displayDataWeather(city, data) {
     pOneTime.textContent = `${data.hourly.time[i].split('T')[1].split(':')[0]} ${space} ${Math.round(data.hourly.temperature_2m[i])} °C`
     // pOneTemp.textContent = `${Math.round(data.hourly.temperature_2m[i])} °C
 
-    timeCity.appendChild(pOneTime)
+    newDiv.appendChild(pOneTime)
+
+
     // temperatureСity.appendChild(pOneTemp)
   }
 }
@@ -180,3 +184,4 @@ daysSelect.addEventListener('change', (e) =>{
 
 // let pTemp = document.createElement('p')
 // listForecast.appendChild(pTemp)
+
