@@ -54,61 +54,79 @@ function codeWeatherCity(city) {
 
 function displayDataWeather(city, data) {
   // const temperatureСity = document.getElementById(`temperature${city}`)
-  const timeCity = document.getElementById(`timeTemp${city}`)
+  const timeTempCity = document.getElementById(`timeTemp${city}`)
   const dateCity = document.getElementById(`date${city}`)
-  
-  const date = data.hourly.time[0].split('T')[0].split("-")
-  if(date[1] == "07"){
-    date[1] = "July"
-  }
 
-  dateCity.textContent = date.join(' ')
+            // for (let i = 0; i < data.hourly.time.length; i++) {
+            //   let pOneTime = document.createElement('p')
+            //   let pOneTemp = document.createElement('p')
 
-  // for (let i = 0; i < data.hourly.time.length; i++) {
-  //   let pOneTime = document.createElement('p')
-  //   let pOneTemp = document.createElement('p')
+            //   pOneTime.textContent = data.hourly.time[i].split('T')[1].split(':')[0]
+            //   pOneTemp.textContent = `${data.hourly.temperature_2m[i]} °C`
 
-  //   pOneTime.textContent = data.hourly.time[i].split('T')[1].split(':')[0]
-  //   pOneTemp.textContent = `${data.hourly.temperature_2m[i]} °C`
+            //   timeCity.appendChild(pOneTime)
+            //   temperatureСity.appendChild(pOneTemp)
 
-  //   timeCity.appendChild(pOneTime)
-  //   temperatureСity.appendChild(pOneTemp)
+            // }
 
-  // }
+          //   data.hourly.temperature_2m.forEach(element => { 
+          //     let spanTempBr = document.createElement('span')
+          //     spanTempBr.textContent = `${Math.round(element)} °C`
+              
+          //     let br = document.createElement("br")
+          //     spanTempBr.appendChild(br)
 
-//   data.hourly.temperature_2m.forEach(element => { 
-//     let spanTempBr = document.createElement('span')
-//     spanTempBr.textContent = `${Math.round(element)} °C`
-    
-//     let br = document.createElement("br")
-//     spanTempBr.appendChild(br)
+          //     temperatureСity.appendChild(spanTempBr)
+          //   });
 
-//     temperatureСity.appendChild(spanTempBr)
-//   });
+          //   data.hourly.time.forEach(element => {
+          //     const dateTime = element.split("T")
+          //     const simpleHour = dateTime[1].split(":")[0]
+              
+          //     timeCity.innerHTML += `${simpleHour + "<br>"}`
+          // });
+          // }
 
-//   data.hourly.time.forEach(element => {
-//     const dateTime = element.split("T")
-//     const simpleHour = dateTime[1].split(":")[0]
-    
-//     timeCity.innerHTML += `${simpleHour + "<br>"}`
-// });
-// }
-
-// function mergeArrays(arrTime ,arrTemp){
+          // function mergeArrays(arrTime ,arrTemp){
   for (let i = 0; i < data.hourly.time.length; i++) {
-     (data.hourly.time[i].split('T')[0] !== data.hourly.time[i--].split('T')[1].split(':')[0]) 
+
+    let dataDiv = document.createElement('div')
+    dataDiv.className = 'flex gap-8'
+
+    const timestamp = data.hourly.time[i]
+    const date = timestamp.split('T')[0]
+
+    let prevTimestamp
+
+    if (i !== 0) {
+      prevTimestamp = data.hourly.time[i - 1]
+    }
+
+    const prevDate = prevTimestamp.split('T')[0]
+
+    if (date !== prevDate || i == 0) {
 
     let pOneTime = document.createElement('p')
     let pOneTemp = document.createElement('p')
-    let space = '\u00A0 \u00A0 \u00A0'
+    // let space = '\u00A0 \u00A0 \u00A0'
 
-    pOneTime.textContent = `${data.hourly.time[i].split('T')[1].split(':')[0]} ${space} ${Math.round(data.hourly.temperature_2m[i])} °C`
-    // pOneTemp.textContent = `${Math.round(data.hourly.temperature_2m[i])} °C
+    pOneTime.textContent = `${data.hourly.time[i].split('T')[1].split(':')[0]}`
+    pOneTemp.textContent = `${Math.round(data.hourly.temperature_2m[i])} °C`
 
-    newDiv.appendChild(pOneTime)
+    let dataOneDiv = document.createElement('div')
+    dataOneDiv.className = 'flex gap-4'
+    dataOneDiv.appendChild(pOneTime)
+    dataOneDiv.appendChild(pOneTemp)
 
+    // const date = data.hourly.time[0].split('T')[0].split("-")
+    // if(date[1] == "07"){
+    //   date[1] = "July"
+    // }
+  
+    dateCity.textContent = date.join(' ')
 
-    // temperatureСity.appendChild(pOneTemp)
+    dataDiv.appendChild(dataOneDiv)
+    }
   }
 }
 
