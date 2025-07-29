@@ -9,40 +9,29 @@ const CITIES = [
 const forecast = document.getElementById("forecast");
 
 function codeWeatherCity(city) {
-  let dataWeatherElement = document.createElement("div");
-  dataWeatherElement.className = "flex flex-col items-center gap-4";
-  forecast.appendChild(dataWeatherElement);
+  let allDataCityMainDiv = document.createElement("div");
+  allDataCityMainDiv.className = "flex flex-col items-center gap-4";
+  forecast.appendChild(allDataCityMainDiv);
 
-  let h4Date = document.createElement("h4");
-  h4Date.className = "text-xl";
-  dataWeatherElement.appendChild(h4Date);
+  let h4Date = document.createElement("h3");
+  h4Date.setAttribute("id", `date${city}`);
+  h4Date.className = "text-xl, font-bold";
+  allDataCityMainDiv.appendChild(h4Date);
 
-  let spanDate = document.createElement("span");
-  spanDate.setAttribute("id", `date${city}`);
-  spanDate.className = "text-xl font-bold";
-  h4Date.appendChild(spanDate);
-
-  let listForecast = document.createElement("div");
-  listForecast.className = "flex gap-8";
-  dataWeatherElement.appendChild(listForecast);
-
-  let pTime = document.createElement("div");
-  pTime.setAttribute("id", `timeTemp${city}`);
-  pTime.className = "flex flex-row gap-10";
-  listForecast.appendChild(pTime);
+  let temperatureDataCity = document.createElement("div");
+  temperatureDataCity.setAttribute("id", `timeTemp${city}`);
+  temperatureDataCity.className = "flex flex-row gap-10";
+  allDataCityMainDiv.appendChild(temperatureDataCity);
 }
 
 function displayDataWeather(city, data) {
-  // const temperatureСity = document.getElementById(`temperature${city}`)
   const timeTempCity = document.getElementById(`timeTemp${city}`);
   const dateCity = document.getElementById(`date${city}`);
 
   for (let i = 0; i < data.hourly.time.length; i++) {
-    // let dataDiv = document.createElement('div')
-    // dataDiv.className = 'flex gap-8'
 
     const timestamp = data.hourly.time[i];
-    const dateLi = timestamp.split("T")[0];
+    const dateCurrent = timestamp.split("T")[0];
 
     let prevTimestamp;
     let prevDate;
@@ -52,13 +41,12 @@ function displayDataWeather(city, data) {
       prevDate = prevTimestamp.split("T")[0];
     }
 
-    if (dateLi !== prevDate || i == 0) {
+    if (dateCurrent !== prevDate || i == 0) {
       dataDiv = document.createElement("div");
     }
 
     let pOneTime = document.createElement("p");
     let pOneTemp = document.createElement("p");
-    // let space = '\u00A0 \u00A0 \u00A0'
 
     pOneTime.textContent = `${data.hourly.time[i].split("T")[1].split(":")[0]}`;
     pOneTemp.textContent = `${Math.round(data.hourly.temperature_2m[i])} °C`;
@@ -75,7 +63,7 @@ function displayDataWeather(city, data) {
       dateCity.textContent = date.join(" ");
       dataDiv.appendChild(dataOneDiv);
 
-      if (dateLi !== prevDate) {
+      if (dateCurrent !== prevDate) {
         timeTempCity.appendChild(dataDiv);
       }
     }
@@ -99,7 +87,7 @@ function dataDisplayWeatherCity(city, days) {
     });
 }
 
-const citySelect = document.querySelector("#city-select");
+const citySelect = document.getElementById("city-select");
 let oneCity = "";
 
 for (i = 0; i < CITIES.length; i++) {
