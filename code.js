@@ -47,9 +47,15 @@ function displayDataWeather(city, data) {
 
   const date = data.hourly.time[0].split("T")[0].split("-");
   if (date[1] == "07") {
-    date[1] = "July";
-    dateCity.textContent = date.join(" ")
-  }  
+    date[1] = "July"}
+    
+  if (date[1] == "08") {
+    date[1] = "August"}
+
+  if (date[1] == "09") {
+    date[1] = "September"}
+    
+  dateCity.textContent = date.join(" ")
 
   for (let i = 0; i < data.hourly.time.length; i++) {
 
@@ -101,8 +107,14 @@ const daysSelect = document.getElementById("days");
 const cityTitle = document.getElementById("city-title");
 
 citySelect.addEventListener("change", (e) => {
-  forecast.removeChild(forecast.firstChild);
+  if (forecast.firstChild) {
+    forecast.removeChild(forecast.firstChild);
+  }
   cityTitle.textContent = citySelect.value;
+  
+  if (citySelect.value == "") {
+    return
+  }
 
   const days = daysSelect.value;
   const city = e.target.value;
@@ -111,7 +123,13 @@ citySelect.addEventListener("change", (e) => {
 });
 
 daysSelect.addEventListener("change", (e) => {
-  forecast.removeChild(forecast.firstChild);
+  if (forecast.firstChild) {
+    forecast.removeChild(forecast.firstChild);
+  }
+
+  if (citySelect.value == "") {
+    return
+  }
 
   const city = citySelect.value;
   const days = e.target.value;
