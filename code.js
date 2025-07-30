@@ -8,6 +8,23 @@ const CITIES = [
 
 const forecast = document.getElementById("forecast");
 
+function dataDisplayWeatherCity(city, days) {
+  for (let i = 0; i < CITIES.length; i++) {
+    if (CITIES[i].city == city) {
+      fetchCity = fetch(
+        `${API_URL}?latitude=${CITIES[i].latitude}&longitude=${CITIES[i].longitude}&hourly=temperature_2m&forecast_days=${days}`,
+      );
+    }
+  }
+
+  fetchCity
+    .then((response) => response.json())
+    .then((data) => {
+      codeWeatherCity(city);
+      displayDataWeather(city, data);
+    });
+}
+
 function codeWeatherCity(city) {
   let allDataCityMainDiv = document.createElement("div");
   allDataCityMainDiv.className = "flex flex-col items-center gap-4";
@@ -28,6 +45,12 @@ function displayDataWeather(city, data) {
   const timeTempCity = document.getElementById(`timeTemp${city}`);
   const dateCity = document.getElementById(`date${city}`);
 
+  const date = data.hourly.time[0].split("T")[0].split("-");
+  if (date[1] == "07") {
+    date[1] = "July";
+    dateCity.textContent = date.join(" ")
+  }  
+
   for (let i = 0; i < data.hourly.time.length; i++) {
 
     const timestamp = data.hourly.time[i];
@@ -42,7 +65,7 @@ function displayDataWeather(city, data) {
     }
 
     if (dateCurrent !== prevDate || i == 0) {
-      dataDiv = document.createElement("div");
+      dataDivColumn = document.createElement("div");
     }
 
     let pOneTime = document.createElement("p");
@@ -56,47 +79,23 @@ function displayDataWeather(city, data) {
     dataOneDiv.appendChild(pOneTime);
     dataOneDiv.appendChild(pOneTemp);
 
-    const date = data.hourly.time[0].split("T")[0].split("-");
-    if (date[1] == "07") {
-      date[1] = "July";
-
-      dateCity.textContent = date.join(" ");
-      dataDiv.appendChild(dataOneDiv);
+      dataDivColumn.appendChild(dataOneDiv);
 
       if (dateCurrent !== prevDate) {
-        timeTempCity.appendChild(dataDiv);
+        timeTempCity.appendChild(dataDivColumn);
       }
     }
-  }
-}
-
-function dataDisplayWeatherCity(city, days) {
-  for (let i = 0; i < CITIES.length; i++) {
-    if (CITIES[i].city == city) {
-      fetchCity = fetch(
-        `${API_URL}?latitude=${CITIES[i].latitude}&longitude=${CITIES[i].longitude}&hourly=temperature_2m&forecast_days=${days}`,
-      );
-    }
-  }
-
-  fetchCity
-    .then((response) => response.json())
-    .then((data) => {
-      codeWeatherCity(city);
-      displayDataWeather(city, data);
-    });
+  
 }
 
 const citySelect = document.getElementById("city-select");
-let oneCity = "";
 
 for (i = 0; i < CITIES.length; i++) {
-  oneCity += `<option
-  value="${CITIES[i].city}">
-  ${CITIES[i].city}
-  </option>`;
+  let oneOptionCity = document.createElement('option')
+  oneOptionCity.value = `${CITIES[i].city}`
+  oneOptionCity.textContent = `${CITIES[i].city}`
+  citySelect.appendChild(oneOptionCity)
 }
-citySelect.innerHTML += oneCity;
 
 const daysSelect = document.getElementById("days");
 const cityTitle = document.getElementById("city-title");
@@ -119,5 +118,3 @@ daysSelect.addEventListener("change", (e) => {
 
   dataDisplayWeatherCity(city, days);
 });
-
-//test
