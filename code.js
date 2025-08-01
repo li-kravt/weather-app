@@ -42,33 +42,36 @@ function codeWeatherCity(city) {
 }
 
 
+let dataDivColumn
 
 function displayDataWeather(city, data) {
   const timeTempCity = document.getElementById(`timeTemp${city}`);
   // const dateCity = document.getElementById(`date${city}`);
 
-  // const date = data.hourly.time[0].split("T")[0].split("-");
-  // if (date[1] == "07") {
-  //   date[1] = "July"}
+  // const titleDay = data.hourly.time[0].split("T")[0].split("-");
+  // // if (date[1] == "07") {
+  // //   date[1] = "July"}
     
-  // if (date[1] == "08") {
-  //   date[1] = "August"}
+  // // if (date[1] == "08") {
+  // //   date[1] = "August"}
 
-  // if (date[1] == "09") {
-  //   date[1] = "September"}
+  // // if (date[1] == "09") {
+  // //   date[1] = "September"}
     
-  // dateCity.textContent = date.join(" ")
+  // // dateCity.textContent = date.join(" ")
 
-  let dataDivColumn
-
+  
   for (let i = 0; i < data.hourly.time.length; i++) {
-
+    
+    if ( i == 0) {
+      dataDivColumn = document.createElement("div")
+    }
     const timestamp = data.hourly.time[i] * 1000;
     const date = new Date(timestamp)
 
-    // const nextTimestamp = data.hourly.time[i +1] * 1000
-    // const nextDate = new Date(nextTimestamp)
-    // console.log(nextDate.getDate)
+    const nextTimestamp = data.hourly.time[i +1] * 1000
+    const nextDate = new Date(nextTimestamp)
+    console.log(nextDate.getDate)
 
     let prevDate
     let prevTimestamp
@@ -77,21 +80,15 @@ function displayDataWeather(city, data) {
       prevTimestamp = data.hourly.time[i - 1] * 1000;
       prevDate = new Date(prevTimestamp)
 
-    function isNewDay() {
+      function isNewDay() {
         return date.getUTCDate() !== prevDate.getUTCDate()
-    }
-    // console.log(isNewDay())
-  }
+      }
 
-  // console.log({
-  //   isNewDay: isNewDay(),
-  //   i,
-  //   dataDivColumn,
-  // })
-    if (isNewDay == true || i == 0) {
-    dataDivColumn = document.createElement("div");
+      if (isNewDay()) {
+      dataDivColumn = document.createElement("div");
+      console.log(true) 
+      }
     }
-    // console.log(dataDivColumn)
 
     let pOneTime = document.createElement("p");
     let pOneTemp = document.createElement("p");
@@ -103,17 +100,16 @@ function displayDataWeather(city, data) {
     dataOneDiv.className = "flex gap-4 tabular-nums";
     dataOneDiv.appendChild(pOneTime);
     dataOneDiv.appendChild(pOneTemp);
-    
 
     dataDivColumn.appendChild(dataOneDiv);
     
     function dayEnd(){
         return date.getDate() !== nextDate.getDate()
-      }
+    }
 
-      // if (dayEnd == true) {
+      if (dayEnd()) {
         timeTempCity.appendChild(dataDivColumn);
-      // }
+      }
     }
   
 }
