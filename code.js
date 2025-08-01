@@ -46,32 +46,32 @@ let dataDivColumn
 
 function displayDataWeather(city, data) {
   const timeTempCity = document.getElementById(`timeTemp${city}`);
-  // const dateCity = document.getElementById(`date${city}`);
-
-  // const titleDay = data.hourly.time[0].split("T")[0].split("-");
-  // // if (date[1] == "07") {
-  // //   date[1] = "July"}
-    
-  // // if (date[1] == "08") {
-  // //   date[1] = "August"}
-
-  // // if (date[1] == "09") {
-  // //   date[1] = "September"}
-    
-  // // dateCity.textContent = date.join(" ")
-
   
   for (let i = 0; i < data.hourly.time.length; i++) {
-    
-    if ( i == 0) {
-      dataDivColumn = document.createElement("div")
-    }
+
     const timestamp = data.hourly.time[i] * 1000;
     const date = new Date(timestamp)
-
-    const nextTimestamp = data.hourly.time[i +1] * 1000
+    
+    const nextTimestamp = data.hourly.time[i + 1] * 1000
     const nextDate = new Date(nextTimestamp)
-    console.log(nextDate.getDate)
+
+    function whichMonth() {
+      if (date.getUTCMonth() == 0) {
+        return "January"
+      }
+
+      if (date.getUTCMonth() == 7) {
+        return "August"
+      }
+    }
+    
+    const forecastWhichDay = `${date.getUTCDay()} ${whichMonth()}`
+
+    if ( i == 0) {
+      dataDivColumn = document.createElement("div")
+      dataDivColumn.textContent = forecastWhichDay
+    }
+
 
     let prevDate
     let prevTimestamp
@@ -80,13 +80,11 @@ function displayDataWeather(city, data) {
       prevTimestamp = data.hourly.time[i - 1] * 1000;
       prevDate = new Date(prevTimestamp)
 
-      function isNewDay() {
-        return date.getUTCDate() !== prevDate.getUTCDate()
-      }
-
-      if (isNewDay()) {
+      const isNewDay = date.getUTCDate() !== prevDate.getUTCDate()
+    
+      if (isNewDay) {
       dataDivColumn = document.createElement("div");
-      console.log(true) 
+      dataDivColumn.textContent = forecastWhichDay
       }
     }
 
@@ -103,15 +101,12 @@ function displayDataWeather(city, data) {
 
     dataDivColumn.appendChild(dataOneDiv);
     
-    function dayEnd(){
-        return date.getDate() !== nextDate.getDate()
-    }
+    const dayEnd = date.getDate() !== nextDate.getDate()
 
-      if (dayEnd()) {
-        timeTempCity.appendChild(dataDivColumn);
-      }
+    if (dayEnd) {
+      timeTempCity.appendChild(dataDivColumn);
     }
-  
+  }
 }
 
 const citySelect = document.getElementById("city-select");
