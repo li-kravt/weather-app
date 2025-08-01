@@ -12,7 +12,7 @@ function dataDisplayWeatherCity(city, days) {
   for (let i = 0; i < CITIES.length; i++) {
     if (CITIES[i].city == city) {
       fetchCity = fetch(
-        `${API_URL}?latitude=${CITIES[i].latitude}&longitude=${CITIES[i].longitude}&hourly=temperature_2m&forecast_days=${days}`,
+        `${API_URL}?latitude=${CITIES[i].latitude}&longitude=${CITIES[i].longitude}&hourly=temperature_2m&forecast_days=${days}&timeformat=unixtime`,
       );
     }
   }
@@ -41,43 +41,57 @@ function codeWeatherCity(city) {
   allDataCityMainDiv.appendChild(temperatureDataCity);
 }
 
+
+let dataDivColumn
+
 function displayDataWeather(city, data) {
   const timeTempCity = document.getElementById(`timeTemp${city}`);
-  const dateCity = document.getElementById(`date${city}`);
-
-  const date = data.hourly.time[0].split("T")[0].split("-");
-  if (date[1] == "07") {
-    date[1] = "July"}
-    
-  if (date[1] == "08") {
-    date[1] = "August"}
-
-  if (date[1] == "09") {
-    date[1] = "September"}
-    
-  dateCity.textContent = date.join(" ")
-
+  
   for (let i = 0; i < data.hourly.time.length; i++) {
 
-    const timestamp = data.hourly.time[i];
-    const dateCurrent = timestamp.split("T")[0];
+    const timestamp = data.hourly.time[i] * 1000;
+    const date = new Date(timestamp)
+    
+    const nextTimestamp = data.hourly.time[i + 1] * 1000
+    const nextDate = new Date(nextTimestamp)
 
-    let prevTimestamp;
-    let prevDate;
+    function whichMonth() {
+      if (date.getUTCMonth() == 0) {
+        return "January"
+      }
 
-    if (i !== 0) {
-      prevTimestamp = data.hourly.time[i - 1];
-      prevDate = prevTimestamp.split("T")[0];
+      if (date.getUTCMonth() == 7) {
+        return "August"
+      }
+    }
+    
+    const forecastWhichDay = `${date.getUTCDay()} ${whichMonth()}`
+
+    if ( i == 0) {
+      dataDivColumn = document.createElement("div")
+      dataDivColumn.textContent = forecastWhichDay
     }
 
-    if (dateCurrent !== prevDate || i == 0) {
+
+    let prevDate
+    let prevTimestamp
+
+    if (i !== 0) {
+      prevTimestamp = data.hourly.time[i - 1] * 1000;
+      prevDate = new Date(prevTimestamp)
+
+      const isNewDay = date.getUTCDate() !== prevDate.getUTCDate()
+    
+      if (isNewDay) {
       dataDivColumn = document.createElement("div");
+      dataDivColumn.textContent = forecastWhichDay
+      }
     }
 
     let pOneTime = document.createElement("p");
     let pOneTemp = document.createElement("p");
 
-    pOneTime.textContent = `${data.hourly.time[i].split("T")[1].split(":")[0]}`;
+    pOneTime.textContent = date.getUTCHours()
     pOneTemp.textContent = `${Math.round(data.hourly.temperature_2m[i])} °C`;
 
     let dataOneDiv = document.createElement("div");
@@ -85,13 +99,14 @@ function displayDataWeather(city, data) {
     dataOneDiv.appendChild(pOneTime);
     dataOneDiv.appendChild(pOneTemp);
 
-      dataDivColumn.appendChild(dataOneDiv);
+    dataDivColumn.appendChild(dataOneDiv);
+    
+    const dayEnd = date.getDate() !== nextDate.getDate()
 
-      if (dateCurrent !== prevDate) {
-        timeTempCity.appendChild(dataDivColumn);
-      }
+    if (dayEnd) {
+      timeTempCity.appendChild(dataDivColumn);
     }
-  
+  }
 }
 
 const citySelect = document.getElementById("city-select");
